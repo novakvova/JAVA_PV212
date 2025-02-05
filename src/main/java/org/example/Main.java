@@ -27,6 +27,22 @@ public class Main {
     }
 
     public static void main(String[] args) {
-        connect();
+        var con = connect();
+        String sql = """
+                CREATE TABLE IF NOT EXISTS games (
+                    id SERIAL PRIMARY KEY,
+                    title VARCHAR(100) NOT NULL,
+                    developer VARCHAR(100) NOT NULL,
+                    publisher VARCHAR(100) NOT NULL,
+                    release_date DATE NOT NULL,
+                    price DECIMAL(10, 2) NOT NULL CHECK (price >= 0)
+                );
+                """;
+        try(var command = con.createStatement()) {
+            int rows = command.executeUpdate(sql);
+            System.out.println("Таблицю створено. Оновлено записів: " + rows);
+        } catch(SQLException ex) {
+            System.out.println("Щось пішло не так "+ ex.getMessage());
+        }
     }
 }
