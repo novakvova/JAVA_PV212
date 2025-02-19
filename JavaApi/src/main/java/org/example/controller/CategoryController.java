@@ -2,6 +2,7 @@ package org.example.controller;
 
 import org.example.dto.category.CategoryCreateDTO;
 import org.example.dto.category.CategoryEditDTO;
+import org.example.dto.category.CategoryItemDTO;
 import org.example.entites.CategoryEntity;
 import org.example.service.CategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,7 +18,7 @@ public class CategoryController {
     private CategoryService categoryService;
 
     @GetMapping
-    public List<CategoryEntity> getAllCategories() {
+    public List<CategoryItemDTO> getAllCategories() {
         return categoryService.getList();
     }
 
@@ -33,7 +34,7 @@ public class CategoryController {
     }
 
     @GetMapping("/{id}")
-    public CategoryEntity getById(@PathVariable int id) {
+    public CategoryItemDTO getById(@PathVariable int id) {
         return categoryService.getById(id);
     }
 

@@ -1,5 +1,6 @@
 package org.example.entites;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.Data;
 
@@ -19,5 +20,6 @@ public class ProductImageEntity {
 
     @ManyToOne
     @JoinColumn(name = "product_id", nullable = false)
+    @JsonManagedReference
     private ProductEntity product;
 }

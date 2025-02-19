@@ -1,7 +1,9 @@
 package org.example.entites;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.Data;
+import net.minidev.json.annotate.JsonIgnore;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -28,8 +30,11 @@ public class ProductEntity {
 
     @ManyToOne
     @JoinColumn(name="category_id", nullable = false)
+    @JsonManagedReference
     private CategoryEntity category;
 
+
     @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonManagedReference
     private List<ProductImageEntity> images;
 }

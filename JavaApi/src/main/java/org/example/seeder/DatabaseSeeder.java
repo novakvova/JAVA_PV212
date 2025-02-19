@@ -8,6 +8,7 @@ import org.example.entites.ProductImageEntity;
 import org.example.repository.ICategoryRepository;
 import org.example.repository.IProductImageRepository;
 import org.example.repository.IProductRepository;
+import org.example.service.FileService;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
@@ -19,16 +20,24 @@ public class DatabaseSeeder {
     private final ICategoryRepository categoryRepository;
     private final IProductRepository productRepository;
     private final IProductImageRepository productImageRepository;
+    private final FileService fileService;
 
     @PostConstruct
     public void seed() {
         if (categoryRepository.count() == 0) {
+
+            var electronics = fileService.load("https://laluna.com.ua/image/cache/catalog/easyphoto/2811202310_photo_2023-11-28_14-27-25-crop-720x1080.jpg");
+            var clothing = fileService.load("https://tse1.mm.bing.net/th?id=OIP.7tGu3cNzCxDnOnER2ysmRQHaE8&w=316&h=316&c=7");
+            var books = fileService.load("https://tse4.mm.bing.net/th?id=OIP.PJ0PyRXOXD-2gqlfs4RG-wHaHa&w=474&h=474&c=7");
+            var home_kitchen = fileService.load("https://tse4.mm.bing.net/th?id=OIP.6IDTDVYInw1c0qXj6Gb2pwHaE8&w=316&h=316&c=7");
+            var toys = fileService.load("https://tse2.mm.bing.net/th?id=OIP.OYSdNG2zvrhP7Mn8DwoGMAHaHa&w=474&h=474&c=7");
+
             List<CategoryEntity> categories = List.of(
-                    createCategory("Electronics", "electronics.jpg", "Devices and gadgets"),
-                    createCategory("Clothing", "clothing.jpg", "Apparel for men and women"),
-                    createCategory("Books", "books.jpg", "Various genres of books"),
-                    createCategory("Home & Kitchen", "home_kitchen.jpg", "Household essentials"),
-                    createCategory("Toys", "toys.jpg", "Toys and games for kids")
+                    createCategory("Electronics", electronics, "Devices and gadgets"),
+                    createCategory("Clothing", clothing, "Apparel for men and women"),
+                    createCategory("Books", books, "Various genres of books"),
+                    createCategory("Home & Kitchen", home_kitchen, "Household essentials"),
+                    createCategory("Toys", toys, "Toys and games for kids")
             );
             categoryRepository.saveAll(categories);
         }
