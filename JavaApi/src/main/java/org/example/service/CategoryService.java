@@ -16,8 +16,9 @@ import java.util.List;
 @Service
 @AllArgsConstructor
 public class CategoryService {
-    private ICategoryRepository categoryRepository;
-    private ICategoryMapper categoryMapper;
+    private final ICategoryRepository categoryRepository;
+    private final ICategoryMapper categoryMapper;
+    private final FileService fileService;
 
     public List<CategoryItemDTO> getList() {
         return categoryMapper.toDto(categoryRepository.findAll());
@@ -34,7 +35,8 @@ public class CategoryService {
         entity.setCreationTime(LocalDateTime.now());
         entity.setName(dto.getName());
         entity.setDescription(dto.getDescription());
-        entity.setImage(dto.getImage());
+        var imageName = fileService.load(dto.getImage());
+        entity.setImage(imageName);
         categoryRepository.save(entity);
         return entity;
     }
@@ -58,8 +60,10 @@ public class CategoryService {
         if (dto.getDescription() != null && !dto.getDescription().isBlank()) {
             entity.setDescription(dto.getDescription());
         }
-        if (dto.getImage() != null && !dto.getImage().isBlank()) {
-            entity.setImage(dto.getImage());
+        if (dto.getImage() != null) {
+            fileService.remove(entity.getImage());
+            var imageName = fileService.load(dto.getImage());
+            entity.setImage(imageName);
         }
 
         return categoryRepository.save(entity);
@@ -68,6 +72,7 @@ public class CategoryService {
     public void delete(int id) {
         CategoryEntity entity = categoryRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Category not found"));
+        fileService.remove(entity.getImage());
         categoryRepository.delete(entity);
     }
 }
