@@ -2,6 +2,7 @@ import { useDeleteCategoryMutation, useGetCategoriesQuery } from "../../services
 import { Link } from "react-router-dom";
 import { Button, Dropdown, MenuProps, notification, Spin } from "antd";
 import { MoreOutlined } from "@ant-design/icons";
+import {APP_ENV} from "../../env";
 
 const CategoryListPage = () => {
     const { data: list, isLoading, error } = useGetCategoriesQuery();
@@ -86,7 +87,7 @@ const CategoryListPage = () => {
                                     {category.name}
                                 </td>
                                 <td className="px-6 py-4">
-                                    <img src={category.image} alt={category.name} className="w-16 h-16 object-cover" />
+                                    <img src={`${APP_ENV.REMOTE_MEDIUM_IMAGES_URL}${category.image}`} alt={category.name} className="w-16 h-16 object-cover" />
                                 </td>
                                 <td className="px-6 py-4">{category.description}</td>
                                 <td className="px-6 py-4 text-center">{renderActions(category.id)}</td>

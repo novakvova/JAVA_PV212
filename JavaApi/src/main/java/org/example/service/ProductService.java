@@ -77,6 +77,16 @@ public class ProductService {
             productImageRepository.delete(removeImage);
         }
 
+        int priority = 1;
+        for (var img : product.getImages()) {
+            ProductImageEntity image = new ProductImageEntity();
+            var imageName = fileService.load(img);
+            image.setName(imageName);
+            image.setPriority(priority);
+            image.setProduct(entity);
+            productImageRepository.save(image);
+            priority++;
+        }
 
         return true;
     }
@@ -85,6 +95,12 @@ public class ProductService {
         var res = productRepository.findById(id);
         if (res.isEmpty()) {
             return false;
+        }
+        var imgs = res.get().getImages();
+        for (var item : imgs)
+        {
+            fileService.remove(item.getName());
+            productImageRepository.delete(item);
         }
         productRepository.deleteById(id);
         return true;
