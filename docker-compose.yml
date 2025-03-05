@@ -16,8 +16,8 @@ services:
     networks:
       - myAppNetwork
     volumes:
-       - d:/web/pv212/postgresql:/var/lib/postgresql/data  # Use the volume name msvol here
-#        - /data/postgresql/data:/var/lib/postgresql/data
+#       - d:/web/pv212/postgresql:/var/lib/postgresql/data  # Use the volume name msvol here
+        - /data/postgresql/data:/var/lib/postgresql/data
     deploy:
       restart_policy:
         condition: on-failure
@@ -33,8 +33,8 @@ services:
     depends_on:
       - postgresServerDb
     volumes:
-     - d:/volumes/pv212-java/images:/app/images  # Use the volume name appvol here
-#     - /volumes/pv212-java/images:/app/images  # Use the volume name appvol here
+#     - d:/volumes/pv212-java/images:/app/images  # Use the volume name appvol here
+     - /volumes/pv212-java/images:/app/images  # Use the volume name appvol here
     deploy:
       restart_policy:
         condition: on-failure
